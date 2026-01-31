@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://do2mm02qku4wx"]
+
+[ext_resource type="PackedScene" uid="uid://bn4ys5jvmctnl" path="res://davmobile.glb" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://blsa0lfw70ajn" path="res://player.gd" id="1_i3pqv"]
+[ext_resource type="Shape3D" uid="uid://c86gpmqvg7774" path="res://davmobile_collision.res" id="2_onrkg"]
+
+[node name="Player" type="RigidBody3D" unique_id=1598452044]
+script = ExtResource("1_i3pqv")
+
+[node name="CameraFocusPoint" type="Node3D" parent="." unique_id=2080356361]
+transform = Transform3D(-3.9589167e-08, 0.4239307, -0.90569454, 1.85306e-08, 0.90569466, 0.4239307, 0.9999999, 8.6969627e-16, -4.371138e-08, 0, 1.9557083, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraFocusPoint" unique_id=158196990]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="davmobile" parent="." unique_id=298001185 instance=ExtResource("1_4flbx")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1119927714]
+shape = ExtResource("2_onrkg")

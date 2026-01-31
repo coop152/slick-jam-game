@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dfkfdbak0oyqg"]
+
+[ext_resource type="PackedScene" uid="uid://do2mm02qku4wx" path="res://player.tscn" id="1_u52ul"]
+[ext_resource type="PackedScene" uid="uid://dsx2engfrwgbu" path="res://rainbow road/rainbow.obj" id="3_oi3di"]
+
+[sub_resource type="Environment" id="Environment_u52ul"]
+background_mode = 1
+ambient_light_source = 3
+ambient_light_color = Color(0.5445792, 0.77478296, 1, 1)
+ambient_light_energy = 0.81
+reflected_light_source = 2
+
+[node name="Level" type="Node3D" unique_id=1031006576]
+
+[node name="Player" parent="." unique_id=1411255366 instance=ExtResource("1_u52ul")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.91528, 208.16571, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1006399594]
+transform = Transform3D(0.82984674, -0.31668356, 0.4594191, 0, 0.8233444, 0.567542, -0.5579914, -0.4709729, 0.68324965, 19.767551, 23.723919, 13.804652)
+shadow_enabled = true
+shadow_bias = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=854881167]
+environment = SubResource("Environment_u52ul")
+
+[node name="rainbow" parent="." unique_id=1653512265 instance=ExtResource("3_oi3di")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
