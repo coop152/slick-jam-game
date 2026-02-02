@@ -4,9 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://dxcp1lh3a3adj" path="res://models/trolley combine.glb" id="3_ht0mr"]
 [ext_resource type="Script" uid="uid://dfryxev770fha" path="res://vehicles/player_camera.gd" id="3_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://ertswa36l6pm" path="res://UI/HUDMask.png" id="4_2hs0m"]
-[ext_resource type="PackedScene" uid="uid://bbpq456ggx44q" path="res://models/new_davmobile.glb" id="4_hqtel"]
 [ext_resource type="Texture2D" uid="uid://bh22biltejui0" path="res://UI/hud_mockup.png" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://bkce1syice1fp" path="res://UI/bum_hud_portrait.png" id="6_1jxqw"]
+[ext_resource type="FontFile" uid="uid://tldk3qoa646k" path="res://UI/RubikMonoOne-Regular.ttf" id="6_4khp5"]
+[ext_resource type="Script" uid="uid://cpiq2n8dxukcq" path="res://vehicles/marker_detector.gd" id="7_ht0mr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i3pqv"]
 bounce = 0.1
@@ -22,7 +23,22 @@ height = 3.0
 transparency = 1
 albedo_color = Color(1, 0, 0, 0.28627452)
 
+[sub_resource type="FontVariation" id="FontVariation_4khp5"]
+base_font = ExtResource("6_4khp5")
+spacing_glyph = -3
+
+[sub_resource type="LabelSettings" id="LabelSettings_ewl42"]
+font = SubResource("FontVariation_4khp5")
+font_size = 29
+shadow_size = 2
+shadow_color = Color(0.1254902, 0.14509805, 0.15686275, 1)
+shadow_offset = Vector2(-2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wj2h4"]
+size = Vector3(2.9647217, 4.6540833, 4.191101)
+
 [node name="PlayerCar" type="RigidBody3D" unique_id=1411255366]
+collision_layer = 3
 physics_material_override = SubResource("PhysicsMaterial_i3pqv")
 gravity_scale = 5.0
 linear_damp = 0.5
@@ -38,7 +54,6 @@ mesh = SubResource("SphereMesh_hqtel")
 surface_material_override/0 = SubResource("StandardMaterial3D_hqtel")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=452493599 node_paths=PackedStringArray("target")]
-top_level = true
 current = true
 fov = 60.0
 script = ExtResource("3_i3pqv")
@@ -46,17 +61,12 @@ lerp_speed = 12.0
 offset = Vector3(0, 4, -8)
 target = NodePath("../CarMesh")
 
-[node name="CarMesh" parent="." unique_id=2145940076 instance=ExtResource("3_ht0mr")]
-top_level = true
+[node name="CarMesh" parent="." unique_id=2063971903 instance=ExtResource("3_ht0mr")]
 
 [node name="RayCast3D" type="RayCast3D" parent="CarMesh" unique_id=2054602542]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 target_position = Vector3(0, -1.2, 0)
 debug_shape_thickness = 5
-
-[node name="CarMeshJake" parent="." unique_id=160060776 instance=ExtResource("4_hqtel")]
-top_level = true
-visible = false
 
 [node name="Mask" type="Sprite2D" parent="." unique_id=436444138]
 clip_children = 1
@@ -69,19 +79,42 @@ z_as_relative = false
 texture = ExtResource("4_sweqy")
 centered = false
 
-[node name="Label" type="Label" parent="Mask/HUD" unique_id=1221355235]
+[node name="SpeedCounter" type="Label" parent="Mask/HUD" unique_id=1221355235]
 z_as_relative = false
-offset_left = 593.0
-offset_top = 236.0
-offset_right = 621.0
-offset_bottom = 259.0
+offset_left = 519.0
+offset_top = 302.0
+offset_right = 616.0
+offset_bottom = 339.0
 text = "123"
+label_settings = SubResource("LabelSettings_ewl42")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LapCounter" type="Label" parent="Mask/HUD" unique_id=1069660255]
+z_as_relative = false
+offset_left = 37.0
+offset_top = 250.0
+offset_right = 81.0
+offset_bottom = 273.0
+text = "larp 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Portrait" type="Sprite2D" parent="Mask/HUD" unique_id=932781969]
 show_behind_parent = true
 z_as_relative = false
-position = Vector2(565, 298)
-scale = Vector2(0.23, 0.23)
+position = Vector2(607, 237)
 texture = ExtResource("6_1jxqw")
+
+[node name="MarkerDetector" type="Area3D" parent="." unique_id=1349148232]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_ht0mr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MarkerDetector" unique_id=1780318180]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00592041, 2.3221588, 0.03567505)
+shape = SubResource("BoxShape3D_wj2h4")
+
+[connection signal="area_entered" from="MarkerDetector" to="MarkerDetector" method="_on_area_entered"]
+[connection signal="lap_count_decremented" from="MarkerDetector" to="." method="_on_marker_detector_lap_count_decremented"]
+[connection signal="lap_count_incremented" from="MarkerDetector" to="." method="_on_marker_detector_lap_count_incremented"]
