@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dc310k0drxksu"]
+
+[ext_resource type="PackedScene" uid="uid://bbpq456ggx44q" path="res://models/new_davmobile.glb" id="1_r4dyl"]
+[ext_resource type="Script" uid="uid://bkn2fghvdbg76" path="res://vehicles/npc_car.gd" id="1_t5aya"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t5aya"]
+radius = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_l5ehv"]
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3afqi"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.28627452)
+
+[node name="NpcCar" type="RigidBody3D" unique_id=561538177]
+linear_damp = 1.0
+script = ExtResource("1_t5aya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1103672401]
+shape = SubResource("SphereShape3D_t5aya")
+
+[node name="new_davmobile" parent="." unique_id=160060776 instance=ExtResource("1_r4dyl")]
+top_level = true
+visible = false
+
+[node name="RayCast3D" type="RayCast3D" parent="new_davmobile" unique_id=602598459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+target_position = Vector3(0, -1.2, 0)
+debug_shape_thickness = 5
+
+[node name="DebugSphere" type="MeshInstance3D" parent="." unique_id=2098224713]
+mesh = SubResource("SphereMesh_l5ehv")
+surface_material_override/0 = SubResource("StandardMaterial3D_3afqi")

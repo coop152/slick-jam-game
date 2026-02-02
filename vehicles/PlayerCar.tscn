@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://do2mm02qku4wx"]
+
+[ext_resource type="Script" uid="uid://blsa0lfw70ajn" path="res://vehicles/player_car.gd" id="1_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://dxcp1lh3a3adj" path="res://models/trolley combine.glb" id="3_ht0mr"]
+[ext_resource type="Script" uid="uid://dfryxev770fha" path="res://vehicles/player_camera.gd" id="3_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://ertswa36l6pm" path="res://UI/HUDMask.png" id="4_2hs0m"]
+[ext_resource type="PackedScene" uid="uid://bbpq456ggx44q" path="res://models/new_davmobile.glb" id="4_hqtel"]
+[ext_resource type="Texture2D" uid="uid://bh22biltejui0" path="res://UI/hud_mockup.png" id="4_sweqy"]
+[ext_resource type="Texture2D" uid="uid://bkce1syice1fp" path="res://UI/bum_hud_portrait.png" id="6_1jxqw"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i3pqv"]
+bounce = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
+radius = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_hqtel"]
+radius = 1.5
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqtel"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.28627452)
+
+[node name="PlayerCar" type="RigidBody3D" unique_id=1411255366]
+physics_material_override = SubResource("PhysicsMaterial_i3pqv")
+gravity_scale = 5.0
+linear_damp = 0.5
+angular_damp = 10.0
+script = ExtResource("1_i3pqv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1229050063]
+shape = SubResource("SphereShape3D_onrkg")
+
+[node name="DebugSphere" type="MeshInstance3D" parent="." unique_id=1006943263]
+visible = false
+mesh = SubResource("SphereMesh_hqtel")
+surface_material_override/0 = SubResource("StandardMaterial3D_hqtel")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=452493599 node_paths=PackedStringArray("target")]
+top_level = true
+current = true
+fov = 60.0
+script = ExtResource("3_i3pqv")
+lerp_speed = 12.0
+offset = Vector3(0, 4, -8)
+target = NodePath("../CarMesh")
+
+[node name="CarMesh" parent="." unique_id=2145940076 instance=ExtResource("3_ht0mr")]
+top_level = true
+
+[node name="RayCast3D" type="RayCast3D" parent="CarMesh" unique_id=2054602542]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+target_position = Vector3(0, -1.2, 0)
+debug_shape_thickness = 5
+
+[node name="CarMeshJake" parent="." unique_id=160060776 instance=ExtResource("4_hqtel")]
+top_level = true
+visible = false
+
+[node name="Mask" type="Sprite2D" parent="." unique_id=436444138]
+clip_children = 1
+z_as_relative = false
+texture = ExtResource("4_2hs0m")
+centered = false
+
+[node name="HUD" type="Sprite2D" parent="Mask" unique_id=97766147]
+z_as_relative = false
+texture = ExtResource("4_sweqy")
+centered = false
+
+[node name="Label" type="Label" parent="Mask/HUD" unique_id=1221355235]
+z_as_relative = false
+offset_left = 593.0
+offset_top = 236.0
+offset_right = 621.0
+offset_bottom = 259.0
+text = "123"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Portrait" type="Sprite2D" parent="Mask/HUD" unique_id=932781969]
+show_behind_parent = true
+z_as_relative = false
+position = Vector2(565, 298)
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("6_1jxqw")

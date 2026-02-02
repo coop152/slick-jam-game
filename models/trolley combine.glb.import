@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dmjgc3ectplwo"
-path="res://.godot/imported/davmobile_body.glb-07f59fd53b78bbca08e5cb3e49ca5bbc.scn"
+uid="uid://dxcp1lh3a3adj"
+path="res://.godot/imported/trolley combine.glb-175b2d80f058a35992f85e844fe14825.scn"
 
 [deps]
 
-source_file="res://davmobile_body.glb"
-dest_files=["res://.godot/imported/davmobile_body.glb-07f59fd53b78bbca08e5cb3e49ca5bbc.scn"]
+source_file="res://models/trolley combine.glb"
+dest_files=["res://.godot/imported/trolley combine.glb-175b2d80f058a35992f85e844fe14825.scn"]
 
 [params]
 

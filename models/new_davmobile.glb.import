@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bbpq456ggx44q"
-path="res://.godot/imported/new_davmobile.glb-a27c811996b572ce9772c3e34a0a1573.scn"
+path="res://.godot/imported/new_davmobile.glb-9496ec42a01c4c948d412f848d86d6dd.scn"
 
 [deps]
 
-source_file="res://new_davmobile.glb"
-dest_files=["res://.godot/imported/new_davmobile.glb-a27c811996b572ce9772c3e34a0a1573.scn"]
+source_file="res://models/new_davmobile.glb"
+dest_files=["res://.godot/imported/new_davmobile.glb-9496ec42a01c4c948d412f848d86d6dd.scn"]
 
 [params]
 

@@ -40,7 +40,6 @@ materials/extract_path=""
 _subresources={
 "nodes": {
 "PATH:Mesh": {
-"generate/navmesh": 1,
 "generate/physics": true
 }
 }

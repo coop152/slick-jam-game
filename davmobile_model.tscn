@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://0ur4ws4holv3"]
-
-[ext_resource type="PackedScene" uid="uid://bn4ys5jvmctnl" path="res://davmobile.glb" id="1_mmc8v"]
-
-[node name="davmobile" unique_id=1124113869 instance=ExtResource("1_mmc8v")]
-
-[node name="Cube" parent="." index="0" unique_id=1927968609]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
