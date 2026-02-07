@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://ssoi2ho7p8g1"]
+
+[ext_resource type="Script" uid="uid://uhvu8jbunlkq" path="res://lap_marker.gd" id="1_dvefm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d01vs"]
+size = Vector3(24.007904, 14.597534, 2.4928284)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qomgv"]
+size = Vector3(24.007904, 14.597534, 2.4928284)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bm0uf"]
+size = Vector3(24.007904, 14.597534, 2.4928284)
+
+[node name="LapMarker" type="Area3D" unique_id=1313290004]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_dvefm")
+marker_type = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=814132539]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
+shape = SubResource("BoxShape3D_d01vs")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Before" type="Area3D" parent="." unique_id=1792539065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.4104557)
+collision_layer = 2
+collision_mask = 0
+collision_priority = 2.0
+script = ExtResource("1_dvefm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Before" unique_id=1499754367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
+shape = SubResource("BoxShape3D_qomgv")
+debug_color = Color(0, 0.64705884, 0.19215687, 1)
+
+[node name="After" type="Area3D" parent="." unique_id=1184602395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.3810577)
+collision_layer = 2
+collision_mask = 0
+collision_priority = 2.0
+script = ExtResource("1_dvefm")
+marker_type = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="After" unique_id=2046468967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
+shape = SubResource("BoxShape3D_bm0uf")
+debug_color = Color(0.9372549, 0, 0.11764706, 1)
+
+[connection signal="body_entered" from="." to="." method="lap_marker_entered"]
+[connection signal="body_entered" from="Before" to="." method="before_marker_entered"]
+[connection signal="body_entered" from="After" to="." method="after_marker_entered"]

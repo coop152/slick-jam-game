@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bgsd4arspjqok"]
+
+[ext_resource type="Script" uid="uid://jja0nw5n8dwk" path="res://credits_phase.gd" id="1_yiqml"]
+[ext_resource type="Texture2D" uid="uid://d0edr8p3y20v2" path="res://UI/credits.png" id="2_yiqml"]
+[ext_resource type="Texture2D" uid="uid://blsrdmfy2ji7l" path="res://UI/fade_mask.png" id="5_oy56f"]
+[ext_resource type="AudioStream" uid="uid://bkkwk78sjvln5" path="res://music/timetrial-START.ogg" id="5_tjof1"]
+[ext_resource type="Texture2D" uid="uid://bw3chadtl0h53" path="res://UI/fade_mask_inverse.png" id="6_qg57a"]
+
+[node name="CreditsPhase" type="Node2D" unique_id=650709367]
+script = ExtResource("1_yiqml")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1077378784]
+texture = ExtResource("2_yiqml")
+centered = false
+
+[node name="Transition" type="Sprite2D" parent="." unique_id=781216304]
+z_index = 1
+position = Vector2(819, 0)
+texture = ExtResource("5_oy56f")
+centered = false
+offset = Vector2(-179, 0)
+
+[node name="TransitionIn" type="Sprite2D" parent="." unique_id=616750326]
+z_index = 1
+texture = ExtResource("6_qg57a")
+centered = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2023456210]
+stream = ExtResource("5_tjof1")
+autoplay = true
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

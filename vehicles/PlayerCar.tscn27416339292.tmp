@@ -1,0 +1,199 @@
+[gd_scene format=3 uid="uid://do2mm02qku4wx"]
+
+[ext_resource type="Script" uid="uid://blsa0lfw70ajn" path="res://vehicles/player_car.gd" id="1_i3pqv"]
+[ext_resource type="Script" uid="uid://dfryxev770fha" path="res://vehicles/player_camera.gd" id="3_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://bh22biltejui0" path="res://UI/hud_mockup.png" id="4_sweqy"]
+[ext_resource type="Texture2D" uid="uid://s8lf3pvxdkum" path="res://UI/speedometer_needle.png" id="5_32udi"]
+[ext_resource type="Texture2D" uid="uid://dvod3wotfepxx" path="res://UI/Lap1.png" id="5_ewl42"]
+[ext_resource type="FontFile" uid="uid://tldk3qoa646k" path="res://UI/RubikMonoOne-Regular.ttf" id="6_4khp5"]
+[ext_resource type="Texture2D" uid="uid://3pj312jrfn1e" path="res://UI/Lap2.png" id="6_mfu14"]
+[ext_resource type="Texture2D" uid="uid://cse175gn00ua5" path="res://UI/Lap3.png" id="7_ajx5e"]
+[ext_resource type="Script" uid="uid://cpiq2n8dxukcq" path="res://vehicles/marker_detector.gd" id="7_ht0mr"]
+[ext_resource type="Texture2D" uid="uid://dcw604hfrq3ua" path="res://UI/minimap.png" id="10_7eie2"]
+[ext_resource type="Texture2D" uid="uid://bva4m2m4awata" path="res://UI/minimap_indicator.png" id="11_32udi"]
+[ext_resource type="FontFile" uid="uid://c7gvrbib6o2iu" path="res://UI/FREEFATFONT-Slanted.otf" id="12_lbh28"]
+[ext_resource type="AudioStream" uid="uid://bhcditoxi86mu" path="res://sfx/EngineSound.wav" id="13_32udi"]
+[ext_resource type="Texture2D" uid="uid://dreqh8pxxjb7q" path="res://UI/speedometer_needle_overlay.png" id="13_lbh28"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i3pqv"]
+bounce = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
+radius = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_hqtel"]
+radius = 1.5
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqtel"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.28627452)
+
+[sub_resource type="FontVariation" id="FontVariation_4khp5"]
+base_font = ExtResource("6_4khp5")
+spacing_glyph = -3
+
+[sub_resource type="LabelSettings" id="LabelSettings_ewl42"]
+font = SubResource("FontVariation_4khp5")
+font_size = 29
+shadow_size = 2
+shadow_color = Color(0.1254902, 0.14509805, 0.15686275, 1)
+shadow_offset = Vector2(-2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7eie2"]
+atlas = ExtResource("5_ewl42")
+region = Rect2(0, 0, 28, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_32udi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7eie2")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_mfu14")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ajx5e")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}]
+
+[sub_resource type="FontVariation" id="FontVariation_m4j7a"]
+base_font = ExtResource("12_lbh28")
+spacing_glyph = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_iemd8"]
+font = SubResource("FontVariation_m4j7a")
+font_size = 35
+font_color = Color(0.6862745, 0, 0, 1)
+shadow_color = Color(0.8117647, 0, 0, 1)
+shadow_offset = Vector2(-1, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_lbh28"]
+base_font = ExtResource("6_4khp5")
+spacing_glyph = -2
+
+[sub_resource type="LabelSettings" id="LabelSettings_m4j7a"]
+font = SubResource("FontVariation_lbh28")
+font_size = 35
+font_color = Color(0.6862745, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(1, 1, 1, 1)
+shadow_offset = Vector2(0, 0)
+
+[node name="PlayerCar" type="RigidBody3D" unique_id=1411255366]
+collision_layer = 3
+physics_material_override = SubResource("PhysicsMaterial_i3pqv")
+gravity_scale = 5.0
+linear_damp = 0.5
+angular_damp = 10.0
+script = ExtResource("1_i3pqv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1229050063]
+shape = SubResource("SphereShape3D_onrkg")
+
+[node name="DebugSphere" type="MeshInstance3D" parent="." unique_id=1006943263]
+visible = false
+mesh = SubResource("SphereMesh_hqtel")
+surface_material_override/0 = SubResource("StandardMaterial3D_hqtel")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=452493599 node_paths=PackedStringArray("target")]
+current = true
+fov = 60.0
+script = ExtResource("3_i3pqv")
+lerp_speed = 12.0
+offset = Vector3(0, 4, -8)
+target = NodePath("..")
+
+[node name="HUD" type="Sprite2D" parent="." unique_id=97766147]
+z_as_relative = false
+texture = ExtResource("4_sweqy")
+centered = false
+
+[node name="SpeedCounter" type="Label" parent="HUD" unique_id=1221355235]
+z_index = 1
+z_as_relative = false
+offset_left = 519.0
+offset_top = 302.0
+offset_right = 616.0
+offset_bottom = 339.0
+text = "123"
+label_settings = SubResource("LabelSettings_ewl42")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpeedNeedle" type="Sprite2D" parent="HUD" unique_id=134502914]
+position = Vector2(568, 302)
+texture = ExtResource("5_32udi")
+offset = Vector2(-0.5, -0.5)
+
+[node name="LapCounter" type="AnimatedSprite2D" parent="HUD" unique_id=583929732]
+position = Vector2(95, 228)
+sprite_frames = SubResource("SpriteFrames_32udi")
+animation = &"1"
+autoplay = "1"
+
+[node name="SpeedNeedleOverlay" type="Sprite2D" parent="HUD" unique_id=1279570376]
+texture = ExtResource("13_lbh28")
+centered = false
+
+[node name="Minimap" type="Sprite2D" parent="HUD" unique_id=1437045061]
+position = Vector2(59, 294)
+texture = ExtResource("10_7eie2")
+
+[node name="MinimapIndicator" type="Sprite2D" parent="HUD" unique_id=1383876378]
+position = Vector2(5, 270)
+texture = ExtResource("11_32udi")
+
+[node name="Timer" type="Label" parent="HUD" unique_id=1951969134]
+offset_left = 99.0
+offset_top = -6.0
+offset_right = 258.0
+offset_bottom = 38.0
+text = "00:00.00"
+label_settings = SubResource("LabelSettings_iemd8")
+
+[node name="FinishText" type="Label" parent="HUD" unique_id=53204652]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.0
+offset_top = -22.0
+offset_right = 98.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "FINISH!"
+label_settings = SubResource("LabelSettings_m4j7a")
+
+[node name="Model" type="Node3D" parent="." unique_id=1619560215]
+
+[node name="MarkerDetector" type="Area3D" parent="Model" unique_id=1349148232]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("7_ht0mr")
+
+[node name="EngineSound" type="AudioStreamPlayer3D" parent="." unique_id=189951437]
+stream = ExtResource("13_32udi")
+autoplay = true
+
+[connection signal="area_entered" from="Model/MarkerDetector" to="Model/MarkerDetector" method="_on_area_entered"]
+[connection signal="car_fell_off_road" from="Model/MarkerDetector" to="." method="_on_marker_detector_car_fell_off_road"]
+[connection signal="lap_count_decremented" from="Model/MarkerDetector" to="." method="_on_marker_detector_lap_count_decremented"]
+[connection signal="lap_count_incremented" from="Model/MarkerDetector" to="." method="_on_marker_detector_lap_count_incremented"]

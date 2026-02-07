@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bots73fvm7ui5"]
+
+[ext_resource type="PackedScene" uid="uid://do2mm02qku4wx" path="res://vehicles/PlayerCar.tscn" id="1_0av7c"]
+[ext_resource type="Texture2D" uid="uid://bji3br1tkv6sp" path="res://UI/jakecar_hud_portrait.png" id="2_0av7c"]
+[ext_resource type="PackedScene" uid="uid://bbpq456ggx44q" path="res://models/new_davmobile.glb" id="3_0av7c"]
+[ext_resource type="Script" uid="uid://dmldlgvqyy7rb" path="res://vehicles/davismobile_new_technology.gd" id="3_k6q06"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k6q06"]
+size = Vector3(3.5345306, 2.4993973, 6.078391)
+
+[node name="PlayerCar" unique_id=1411255366 instance=ExtResource("1_0av7c")]
+
+[node name="Portrait2" type="Sprite2D" parent="HUD" parent_id_path=PackedInt32Array(97766147) index="4" unique_id=261366200]
+show_behind_parent = true
+z_as_relative = false
+position = Vector2(607, 267)
+texture = ExtResource("2_0av7c")
+offset = Vector2(0, -30)
+script = ExtResource("3_k6q06")
+
+[node name="CarMesh" parent="Model" parent_id_path=PackedInt32Array(1619560215) index="0" unique_id=459986006 instance=ExtResource("3_0av7c")]
+
+[node name="RayCast3D" type="RayCast3D" parent="Model/CarMesh" index="5" unique_id=1150310690]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.6, 0)
+target_position = Vector3(0, -1.2, 0)
+debug_shape_thickness = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/MarkerDetector" parent_id_path=PackedInt32Array(1349148232) index="0" unique_id=136674577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008552551, 1.2448158, 0.06926513)
+shape = SubResource("BoxShape3D_k6q06")

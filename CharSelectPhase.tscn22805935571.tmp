@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://cxbrfijb08w64"]
+
+[ext_resource type="Script" uid="uid://b22ix6o2ls5at" path="res://char_select_phase.gd" id="1_7kd4n"]
+[ext_resource type="Texture2D" uid="uid://igasek1lm5pb" path="res://UI/char_select_background.png" id="1_w8fg7"]
+[ext_resource type="Texture2D" uid="uid://dqtt27r7k003w" path="res://UI/kid_hud_portrait.png" id="2_5nfyi"]
+[ext_resource type="Texture2D" uid="uid://be5qvxr6kbd26" path="res://UI/mob_hud_portrait.png" id="3_7wjqe"]
+[ext_resource type="Texture2D" uid="uid://cj3mp5y61b1hf" path="res://UI/royce_hud_portrait.png" id="4_6idol"]
+[ext_resource type="Texture2D" uid="uid://bj74letlptlgg" path="res://UI/greaser_hud_portrait.png" id="5_2c50a"]
+[ext_resource type="Texture2D" uid="uid://bkce1syice1fp" path="res://UI/bum_hud_portrait.png" id="6_n5uhv"]
+[ext_resource type="Script" uid="uid://d26vivkqeh0wg" path="res://char_select_spinning_car.gd" id="7_7wjqe"]
+[ext_resource type="Texture2D" uid="uid://bji3br1tkv6sp" path="res://UI/jakecar_hud_portrait.png" id="9_6idol"]
+[ext_resource type="AudioStream" uid="uid://be0ymkk3pcabs" path="res://music/_carmenu-START.ogg" id="10_2c50a"]
+[ext_resource type="Script" uid="uid://dd2d5pbmd1x51" path="res://music_loopa.gd" id="11_n5uhv"]
+[ext_resource type="AudioStream" uid="uid://cw0xbbqm8hvkm" path="res://music/_carmenu-LOOP.ogg" id="12_7kd4n"]
+[ext_resource type="Texture2D" uid="uid://bndgmta0oh8ab" path="res://UI/char_select_cursor.png" id="13_pa5q6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5nfyi"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Environment" id="Environment_7wjqe"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.4
+
+[node name="CharSelectPhase" type="Node2D" unique_id=1452981041]
+script = ExtResource("1_7kd4n")
+
+[node name="CharSelectBackground" type="Sprite2D" parent="." unique_id=338163731]
+texture = ExtResource("1_w8fg7")
+centered = false
+
+[node name="KidHudPortrait" type="Sprite2D" parent="." unique_id=455433749]
+position = Vector2(439, 308)
+texture = ExtResource("2_5nfyi")
+
+[node name="MobHudPortrait" type="Sprite2D" parent="." unique_id=912725119]
+position = Vector2(120, 309)
+texture = ExtResource("3_7wjqe")
+
+[node name="RoyceHudPortrait" type="Sprite2D" parent="." unique_id=1041788816]
+position = Vector2(360, 309)
+texture = ExtResource("4_6idol")
+
+[node name="GreaserHudPortrait" type="Sprite2D" parent="." unique_id=1781588788]
+position = Vector2(279, 309)
+texture = ExtResource("5_2c50a")
+
+[node name="BumHudPortrait" type="Sprite2D" parent="." unique_id=1090252667]
+position = Vector2(200, 309)
+texture = ExtResource("6_n5uhv")
+
+[node name="CarPreview" type="Sprite2D" parent="." unique_id=75705392]
+position = Vector2(458, 114)
+texture = SubResource("ViewportTexture_5nfyi")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1611408145]
+size = Vector2i(320, 200)
+script = ExtResource("7_7wjqe")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=706598800]
+transform = Transform3D(0.9106332, -0.22963631, 0.34353223, -0.0190905, 0.8070952, 0.59011304, -0.41277453, -0.54393464, 0.7305838, 1.6775894, 3.940895, 4.8107224)
+environment = SubResource("Environment_7wjqe")
+fov = 60.0
+
+[node name="Car" type="Node3D" parent="SubViewport" unique_id=639266430]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewport" unique_id=1364283272]
+transform = Transform3D(0.9501682, -0.16444781, 0.26483488, 3.4638337e-09, 0.8495431, 0.5275194, -0.31173795, -0.50123215, 0.8072088, 1.5270095, 3.9812737, 4.919058)
+light_energy = 20.0
+spot_range = 12.974509
+
+[node name="JakecarHudPortrait" type="Sprite2D" parent="." unique_id=2007036457]
+visible = false
+position = Vector2(520, 309)
+texture = ExtResource("9_6idol")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=847341584]
+stream = ExtResource("10_2c50a")
+autoplay = true
+script = ExtResource("11_n5uhv")
+loop_track = ExtResource("12_7kd4n")
+
+[node name="Label" type="Label" parent="." unique_id=54281928]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+text = "selected: "
+
+[node name="Cursor" type="Sprite2D" parent="." unique_id=1925915921]
+position = Vector2(163, 273)
+texture = ExtResource("13_pa5q6")
+centered = false
+
+[connection signal="finished" from="AudioStreamPlayer" to="AudioStreamPlayer" method="_on_finished"]

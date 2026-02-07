@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cuxfysfeolli8"]
+
+[ext_resource type="PackedScene" uid="uid://bc4ecf6lugwaq" path="res://rainbow road/reexported.glb" id="1_jlfcd"]
+[ext_resource type="PackedScene" uid="uid://ssoi2ho7p8g1" path="res://lap_marker.tscn" id="2_17hfa"]
+
+[node name="RainbowRoad" unique_id=499179727 instance=ExtResource("1_jlfcd")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="LapMarker" parent="." index="1" unique_id=1313290004 instance=ExtResource("2_17hfa")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 8.734, 51.953, 4.77)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="2" unique_id=1294444131]
+transform = Transform3D(0.82984674, -0.31668356, 0.45941913, 0, 0.8233444, 0.5675421, -0.5579914, -0.4709729, 0.6832497, 19.767551, 64.646774, 13.804652)
+shadow_bias = 1.0

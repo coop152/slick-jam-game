@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dxrvd0fbvd2s1"]
+
+[ext_resource type="PackedScene" uid="uid://dbowkhtunvsjb" path="res://real level/TRACKkiall awesome.glb" id="1_5qj1e"]
+[ext_resource type="PackedScene" uid="uid://ssoi2ho7p8g1" path="res://lap_marker.tscn" id="2_jwph3"]
+[ext_resource type="Script" uid="uid://v3y0eklil2h0" path="res://real level/deathzone.gd" id="3_facyd"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_jwph3"]
+
+[node name="TRACKkiall awesome" unique_id=1488209222 instance=ExtResource("1_5qj1e")]
+
+[node name="PlayerSpawn" type="Marker3D" parent="." index="3" unique_id=1820013744]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.55641556, 7.6036263, 19.386292)
+
+[node name="LapMarker" parent="." index="4" unique_id=1313290004 instance=ExtResource("2_jwph3")]
+transform = Transform3D(3.9999993, 0, 0.0025835035, 0, 4, 0, -0.0025835035, 0, 3.9999993, -3.6391792, 2.9701366, -16.728477)
+
+[node name="Deathzone" type="Area3D" parent="." index="5" unique_id=105608446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_facyd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Deathzone" index="0" unique_id=887758209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 404.072, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_jwph3")

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cfxbsgqerra47"]
+
+[ext_resource type="PackedScene" uid="uid://do2mm02qku4wx" path="res://vehicles/PlayerCar.tscn" id="1_jcmg2"]
+[ext_resource type="PackedScene" uid="uid://defqrgowy5nse" path="res://models/rollsshmoyce Textured.glb" id="2_jcmg2"]
+[ext_resource type="Texture2D" uid="uid://cj3mp5y61b1hf" path="res://UI/royce_hud_portrait.png" id="2_n55e4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jcmg2"]
+size = Vector3(3.4474335, 2.492134, 6.8188324)
+
+[node name="PlayerCar" unique_id=1411255366 instance=ExtResource("1_jcmg2")]
+
+[node name="Portrait2" type="Sprite2D" parent="HUD" parent_id_path=PackedInt32Array(97766147) index="4" unique_id=392448786]
+show_behind_parent = true
+z_as_relative = false
+position = Vector2(613, 238)
+texture = ExtResource("2_n55e4")
+
+[node name="CarMesh" parent="Model" parent_id_path=PackedInt32Array(1619560215) index="0" unique_id=577785 instance=ExtResource("2_jcmg2")]
+
+[node name="RayCast3D" type="RayCast3D" parent="Model/CarMesh" index="5" unique_id=1150310690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+target_position = Vector3(0, -1.2, 0)
+debug_shape_thickness = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/MarkerDetector" parent_id_path=PackedInt32Array(1349148232) index="0" unique_id=136674577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01927948, 1.2411842, 0.22891998)
+shape = SubResource("BoxShape3D_jcmg2")
+
+[node name="Explosion" parent="Model" parent_id_path=PackedInt32Array(1619560215) index="2" unique_id=1001090315]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 3, 0)

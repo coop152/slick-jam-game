@@ -2,12 +2,12 @@ extends Area3D
 
 signal lap_count_incremented()
 signal lap_count_decremented()
+signal car_fell_off_road()
 
 var approaching_lap_marker: bool = false
 
 func _on_area_entered(area: Area3D) -> void:
 	# check the area is a lap marker
-	#if "marker_type" in area:
 	if area is LapMarker:
 		match area.marker_type:
 			LapMarker.MarkerType.Before:
@@ -22,3 +22,6 @@ func _on_area_entered(area: Area3D) -> void:
 			LapMarker.MarkerType.After:
 				print("entered after marker")
 				approaching_lap_marker = false
+	elif area is Deathzone:
+		print("FELL OFF !!!!!!!!!!!!!")
+		car_fell_off_road.emit()

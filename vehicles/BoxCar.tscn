@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://2ybn1tqhcbrq"]
+
+[ext_resource type="PackedScene" uid="uid://do2mm02qku4wx" path="res://vehicles/PlayerCar.tscn" id="1_qle4k"]
+[ext_resource type="Texture2D" uid="uid://dqtt27r7k003w" path="res://UI/kid_hud_portrait.png" id="2_1pa0h"]
+[ext_resource type="PackedScene" uid="uid://n7v7mn3nn0uu" path="res://models/boxcartTextured.glb" id="2_qle4k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1pa0h"]
+size = Vector3(3.5345306, 2.659195, 4.6907616)
+
+[node name="PlayerCar" unique_id=1411255366 instance=ExtResource("1_qle4k")]
+
+[node name="Portrait2" type="Sprite2D" parent="HUD" parent_id_path=PackedInt32Array(97766147) index="4" unique_id=261366200]
+show_behind_parent = true
+z_as_relative = false
+position = Vector2(609, 241)
+texture = ExtResource("2_1pa0h")
+
+[node name="CarMesh" parent="Model" parent_id_path=PackedInt32Array(1619560215) index="0" unique_id=320925779 instance=ExtResource("2_qle4k")]
+transform = Transform3D(0.605, 0, 0, 0, 0.605, 0, 0, 0, 0.605, 0, 0, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Model/CarMesh" index="5" unique_id=1150310690]
+transform = Transform3D(-7.2250224e-08, 0, 1.6528925, 0, 1.6528925, 0, -1.6528925, 0, -7.2250224e-08, 0, 0.9917355, 0)
+target_position = Vector3(0, -1.2, 0)
+debug_shape_thickness = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/MarkerDetector" parent_id_path=PackedInt32Array(1349148232) index="0" unique_id=136674577]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008552551, 1.3247147, -0.034971952)
+shape = SubResource("BoxShape3D_1pa0h")

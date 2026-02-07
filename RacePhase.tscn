@@ -1,96 +1,227 @@
 [gd_scene format=3 uid="uid://dfkfdbak0oyqg"]
 
 [ext_resource type="Script" uid="uid://d8d0xkoijd4f" path="res://race_phase.gd" id="1_73ci3"]
-[ext_resource type="PackedScene" uid="uid://do2mm02qku4wx" path="res://vehicles/PlayerCar.tscn" id="2_reikq"]
-[ext_resource type="PackedScene" uid="uid://bc4ecf6lugwaq" path="res://rainbow road/reexported.glb" id="3_73ci3"]
-[ext_resource type="Script" uid="uid://uhvu8jbunlkq" path="res://lap_marker.gd" id="4_reikq"]
+[ext_resource type="PackedScene" uid="uid://dxrvd0fbvd2s1" path="res://real level/trac_kkiall_awesome.tscn" id="2_reikq"]
+[ext_resource type="PackedScene" uid="uid://bots73fvm7ui5" path="res://vehicles/JakeCar.tscn" id="3_reikq"]
+[ext_resource type="Texture2D" uid="uid://bw3chadtl0h53" path="res://UI/fade_mask_inverse.png" id="4_reikq"]
+[ext_resource type="Texture2D" uid="uid://0nu3hw1d67yg" path="res://UI/countdown_lights.png" id="5_cm7xk"]
+[ext_resource type="AudioStream" uid="uid://dipq83o2e7i7u" path="res://sfx/racecountdown.wav" id="6_eiqoy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_73ci3"]
+sky_top_color = Color(0.14354825, 0.12762088, 0.20262024, 1)
+sky_horizon_color = Color(0.031485006, 0.015300002, 0.09, 1)
+ground_bottom_color = Color(0.20715812, 0.20032483, 0.17635566, 1)
+ground_horizon_color = Color(0.55, 0.4356, 0.28599998, 1)
+
+[sub_resource type="Sky" id="Sky_reikq"]
+sky_material = SubResource("ProceduralSkyMaterial_73ci3")
 
 [sub_resource type="Environment" id="Environment_u52ul"]
-background_mode = 1
+background_mode = 2
+sky = SubResource("Sky_reikq")
 ambient_light_source = 3
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.5
-reflected_light_source = 2
+ambient_light_color = Color(0.58000004, 0.6009999, 1, 1)
+ambient_light_energy = 0.1
 
-[sub_resource type="Curve3D" id="Curve3D_0b4ue"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 35.1054, -2.0380402, -2.0508175, 0, 0, 0, 0, 0, 0, 33.978203, -5.6549835, -70.3253, 0, 0, 0, 0, 0, 0, 33.905396, -15.257431, -137.22183, 0, 0, 0, 0, 0, 0, 32.8916, -29.262817, -188.51178, 0, 0, 0, 0, 0, 0, 33.541992, -55.570206, -241.5051, 0, 0, 0, 0, 0, 0, 34.222168, -109.491684, -310.5209, 0, 0, 0, 0, 0, 0, 35.15454, -154.2654, -382.8444, 0, 0, 0, 0, 0, 0, 34.907715, -175.89938, -456.57663, 0, 0, 0, 0, 0, 0, 35.195923, -175.33234, -512.0874, 0, 0, 0, 0, 0, 0, 32.924805, -164.8414, -561.52014),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_eiqoy"]
+atlas = ExtResource("5_cm7xk")
+region = Rect2(0, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jglj"]
+atlas = ExtResource("5_cm7xk")
+region = Rect2(640, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwdre"]
+atlas = ExtResource("5_cm7xk")
+region = Rect2(1280, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6db"]
+atlas = ExtResource("5_cm7xk")
+region = Rect2(1920, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6nlq"]
+atlas = ExtResource("5_cm7xk")
+region = Rect2(2560, 0, 640, 360)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3b2j1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eiqoy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jglj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwdre")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg6db")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6nlq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="Animation" id="Animation_cm7xk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CountdownLights:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
-point_count = 10
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Transition:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CountdownLights:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerCar:input_disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
-[sub_resource type="SphereMesh" id="SphereMesh_0b4ue"]
+[sub_resource type="Animation" id="Animation_eiqoy"]
+resource_name = "race_start"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CountdownLights:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_eiqoy")
+}],
+"times": PackedFloat32Array(1)
+}
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Transition:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -819.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CountdownLights:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 4.5, 5),
+"transitions": PackedFloat32Array(1, 2, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, -90)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerCar:input_disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_reikq"]
-size = Vector3(24.007904, 14.597534, 2.4928284)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_cm7xk"]
-size = Vector3(24.007904, 14.597534, 2.4928284)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_eiqoy"]
-size = Vector3(24.007904, 14.597534, 2.4928284)
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8jglj"]
+_data = {
+&"RESET": SubResource("Animation_cm7xk"),
+&"race_start": SubResource("Animation_eiqoy")
+}
 
 [node name="RacePhase" type="Node3D" unique_id=1031006576]
 script = ExtResource("1_73ci3")
 
-[node name="Player" parent="." unique_id=1411255366 instance=ExtResource("2_reikq")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 38.91528, 208.16571, 52.799015)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1006399594]
-transform = Transform3D(0.82984674, -0.31668356, 0.4594191, 0, 0.8233444, 0.567542, -0.5579914, -0.4709729, 0.68324965, 19.767551, 23.723919, 13.804652)
-shadow_bias = 1.0
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=854881167]
 environment = SubResource("Environment_u52ul")
 
-[node name="Path3D" type="Path3D" parent="." unique_id=787066161]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 204.33138, 18.63929)
-curve = SubResource("Curve3D_0b4ue")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1267261075]
+transform = Transform3D(0.9708379, 0.15409996, 0.18364894, -0.23973694, 0.6240425, 0.743705, -3.816e-09, -0.7660445, 0.6427876, 343.51718, 181.71576, 219.67581)
+light_color = Color(0.82, 0.832, 1, 1)
+light_angular_distance = 0.5
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=33853651]
-transform = Transform3D(0.99986374, -0.0008731685, 0.016484428, 2.910383e-11, 0.99860007, 0.052895136, -0.016507538, -0.052887928, 0.998464, 35.1054, 202.29333, 16.588472)
-mesh = SubResource("SphereMesh_0b4ue")
+[node name="Map" parent="." unique_id=1488209222 instance=ExtResource("2_reikq")]
 
-[node name="reexported" parent="." unique_id=499179727 instance=ExtResource("3_73ci3")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+[node name="PlayerCar" parent="." unique_id=1411255366 instance=ExtResource("3_reikq")]
+transform = Transform3D(0.9999905, 0, 0.004363285, 0, 1, 0, -0.004363285, 0, 0.9999905, 0, 2.5848494, 48.527527)
+input_disabled = true
 
-[node name="LapMarker" type="Area3D" parent="." unique_id=2035040662]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.934483, 207.81271, 19.0788)
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("4_reikq")
-marker_type = 1
+[node name="Transition" type="Sprite2D" parent="." unique_id=1817559736]
+z_index = 1
+texture = ExtResource("4_reikq")
+centered = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LapMarker" unique_id=311782905]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
-shape = SubResource("BoxShape3D_reikq")
-debug_color = Color(0, 0.6, 0.69803923, 0.69411767)
+[node name="CountdownLights" type="AnimatedSprite2D" parent="." unique_id=285375505]
+sprite_frames = SubResource("SpriteFrames_3b2j1")
+centered = false
 
-[node name="Before" type="Area3D" parent="LapMarker" unique_id=1798926997]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.4104557)
-collision_layer = 2
-collision_mask = 0
-collision_priority = 2.0
-script = ExtResource("4_reikq")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=358164653]
+libraries/ = SubResource("AnimationLibrary_8jglj")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LapMarker/Before" unique_id=1808540226]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
-shape = SubResource("BoxShape3D_cm7xk")
-debug_color = Color(0, 0.64705884, 0.19215687, 0.6745098)
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=764827746]
 
-[node name="After" type="Area3D" parent="LapMarker" unique_id=233353504]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.3810577)
-collision_layer = 2
-collision_mask = 0
-collision_priority = 2.0
-script = ExtResource("4_reikq")
-marker_type = 2
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1974231168]
+volume_db = -5.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LapMarker/After" unique_id=1351516645]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06980896, -1.562561, 1.1866608)
-shape = SubResource("BoxShape3D_eiqoy")
-debug_color = Color(0.9372549, 0, 0.11764706, 0.64705884)
-
-[connection signal="body_entered" from="LapMarker" to="LapMarker" method="lap_marker_entered"]
-[connection signal="body_entered" from="LapMarker/Before" to="LapMarker" method="before_marker_entered"]
-[connection signal="body_entered" from="LapMarker/After" to="LapMarker" method="after_marker_entered"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]
