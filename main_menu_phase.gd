@@ -19,13 +19,13 @@ func _process(delta: float) -> void:
 	# handle input
 	if Input.is_action_just_pressed("steer_right") or Input.is_action_just_pressed("menu_down"):
 		selected_idx += 1
-		Globals.play_sfx(preload("res://sfx/selectMOVE.wav"))
+		Globals.play_sfx(Globals.MENU_MOVE_SFX)
 	elif Input.is_action_just_pressed("steer_left") or Input.is_action_just_pressed("menu_up"):
 		selected_idx -= 1
-		Globals.play_sfx(preload("res://sfx/selectMOVE.wav"))
+		Globals.play_sfx(Globals.MENU_MOVE_SFX)
 	elif Input.is_action_just_pressed("accelerate"):
 		option_selected = true
-		Globals.play_sfx(preload("res://sfx/acceptselect.wav"))
+		Globals.play_sfx(Globals.MENU_ACCEPT_SFX)
 		var tween = $Transition.create_tween()
 		tween.tween_property($Transition, "position", Vector2.ZERO, 0.5)
 		await tween.finished

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bw3chadtl0h53" path="res://UI/fade_mask_inverse.png" id="4_reikq"]
 [ext_resource type="Texture2D" uid="uid://0nu3hw1d67yg" path="res://UI/countdown_lights.png" id="5_cm7xk"]
 [ext_resource type="AudioStream" uid="uid://dipq83o2e7i7u" path="res://sfx/racecountdown.wav" id="6_eiqoy"]
+[ext_resource type="FontFile" uid="uid://tldk3qoa646k" path="res://UI/RubikMonoOne-Regular.ttf" id="7_8jglj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_73ci3"]
 sky_top_color = Color(0.14354825, 0.12762088, 0.20262024, 1)
@@ -190,38 +191,76 @@ _data = {
 &"race_start": SubResource("Animation_eiqoy")
 }
 
+[sub_resource type="FontVariation" id="FontVariation_kwdre"]
+base_font = ExtResource("7_8jglj")
+spacing_glyph = -2
+
+[sub_resource type="LabelSettings" id="LabelSettings_mg6db"]
+font = SubResource("FontVariation_kwdre")
+font_size = 36
+font_color = Color(0.6862745, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(1, 1, 1, 1)
+shadow_offset = Vector2(0, 0)
+
 [node name="RacePhase" type="Node3D" unique_id=1031006576]
+process_mode = 3
 script = ExtResource("1_73ci3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=854881167]
+process_mode = 1
 environment = SubResource("Environment_u52ul")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1267261075]
+process_mode = 1
 transform = Transform3D(0.9708379, 0.15409996, 0.18364894, -0.23973694, 0.6240425, 0.743705, -3.816e-09, -0.7660445, 0.6427876, 343.51718, 181.71576, 219.67581)
 light_color = Color(0.82, 0.832, 1, 1)
 light_angular_distance = 0.5
 
 [node name="Map" parent="." unique_id=1488209222 instance=ExtResource("2_reikq")]
+process_mode = 1
 
 [node name="PlayerCar" parent="." unique_id=1411255366 instance=ExtResource("3_reikq")]
 transform = Transform3D(0.9999905, 0, 0.004363285, 0, 1, 0, -0.004363285, 0, 0.9999905, 0, 2.5848494, 48.527527)
 input_disabled = true
 
 [node name="Transition" type="Sprite2D" parent="." unique_id=1817559736]
+process_mode = 1
 z_index = 1
 texture = ExtResource("4_reikq")
 centered = false
 
 [node name="CountdownLights" type="AnimatedSprite2D" parent="." unique_id=285375505]
+process_mode = 1
 sprite_frames = SubResource("SpriteFrames_3b2j1")
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=358164653]
+process_mode = 1
 libraries/ = SubResource("AnimationLibrary_8jglj")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=764827746]
+process_mode = 1
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1974231168]
+process_mode = 1
 volume_db = -5.0
+
+[node name="PauseText" type="Label" parent="." unique_id=1566401970]
+process_mode = 1
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -23.0
+offset_right = 87.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PAUSED"
+label_settings = SubResource("LabelSettings_mg6db")
 
 [connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]

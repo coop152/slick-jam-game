@@ -33,11 +33,21 @@ var turn_stop_limit = 0.75
 
 var body_tilt = 35
 
+var boost_charge: float = 0.0 # max 100
+var boosting: bool = false
+
+enum DriftState {
+	Not,
+	Left,
+	Right
+}
+var drift_state = DriftState.Not
+
 var race_time: float = 0.0
 var current_lap_time: float = 0.0
 var lap_times: Array[float] = []
 
-var last_known_grounded_locations: Array[Vector3] = []
+var last_known_grounded_locations: Array = []
 
 # Variables for input values
 var speed_input = 0
@@ -52,11 +62,12 @@ func _physics_process(_delta: float) -> void:
 	car_mesh.position = position + sphere_offset
 	var velocity_directed: float = linear_velocity.dot(car_mesh.global_transform.basis.z.normalized())
 	if ground_ray.is_colliding():
-		last_known_grounded_locations.append(position)
+		last_known_grounded_locations.append([position, car_mesh.rotation])
+		# todo: store car mesh rotation also
 		if last_known_grounded_locations.size() == 30:
 			last_known_grounded_locations.pop_front()
 		apply_central_force(car_mesh.global_transform.basis.z * speed_input)
-		if Input.is_action_pressed("drift"):
+		if drift_state != DriftState.Not:
 			var v = car_mesh.global_transform.basis.y.cross(linear_velocity).normalized()
 			apply_central_force(v * turn_input * velocity_directed)
 	$HUD/SpeedCounter.text = str(int(velocity_directed))
@@ -68,6 +79,11 @@ func _ready():
 	$Camera3D.top_level = true
 
 func _process(delta):
+	# handle boost bar refill
+	if not input_disabled:
+		boost_charge += delta * 10
+	boost_charge = clamp(boost_charge, 0, 100)
+	$HUD/BoostBar/BoostMask/Fill.position.x = lerp(-220, 0, boost_charge/100)
 	# handle timer
 	if not input_disabled:
 		race_time += delta
@@ -75,14 +91,22 @@ func _process(delta):
 	$HUD/Timer.text = "%02d:%02d.%02d" % [race_time/60, int(race_time) % 60, (race_time - int(race_time)) * 100]
 	# fiddle with engine noise
 	var velocity_directed: float = linear_velocity.dot(car_mesh.global_transform.basis.z.normalized())
-	$EngineSound.pitch_scale = 1 + abs(velocity_directed) / 120
+	$EngineSound.pitch_scale = 1 + (abs(velocity_directed) / 120) + (0.5 if boosting else 0)
+	$EngineSound.volume_db = (30 if boosting else 20)
+	if drift_state != DriftState.Not:
+		$Model/GPUParticles3D.emitting = true
+		if not $DriftSound.playing:
+			$DriftSound.play()
+	else:
+		$Model/GPUParticles3D.emitting = false
+		$DriftSound.stop()
 	# position minimap indicator
 	var minimap_center = $HUD/Minimap.position
 	var pos: Vector2 = (Vector2(position.x, position.z) / 375.0) * 46.0
 	$HUD/MinimapIndicator.position = minimap_center + pos
 	$HUD/MinimapIndicator.rotation = -$Model.rotation.y + (PI / 2)
 	
-	handle_input()
+	handle_input(delta)
 
 	# steer wheels
 	right_wheel.create_tween().tween_property(right_wheel, "rotation", right_wheel.rotation + (Vector3(0,1,0) * (turn_input - right_wheel.rotation.y)), 0.05)
@@ -114,7 +138,7 @@ func align_with_y(xform, new_y):
 	xform.basis = xform.basis.orthonormalized()
 	return xform.orthonormalized()
 	
-func handle_input():
+func handle_input(delta):
 	if input_disabled: 
 		turn_input = 0
 		speed_input = 0
@@ -122,13 +146,15 @@ func handle_input():
 	# if boost is held, increase acceleration and decrease turn speed
 	acceleration = base_acceleration
 	turn_speed = base_turn_speed
-	if Input.is_action_pressed("drift"):
-		turn_speed *= 1.5
-	if Input.is_action_pressed("boost"):
+		
+	if Input.is_action_pressed("boost") and (boost_charge >= 25.0 or boosting) and boost_charge > 0:
+		boosting = true
+		boost_charge -= delta * 40
 		acceleration *= 1.5
 		turn_speed *= 0.75
 		$Camera3D.create_tween().tween_property($Camera3D, "fov", 75, 0.5)
 	else:
+		boosting = false
 		$Camera3D.create_tween().tween_property($Camera3D, "fov", 60, 0.5)
 		
 	# take inputs
@@ -136,6 +162,24 @@ func handle_input():
 	speed_input = (Input.get_action_strength("accelerate") * acceleration) \
 		- (Input.get_action_strength("brake") * (acceleration * deceleration_factor))
 	turn_input = Input.get_axis("steer_right", "steer_left") * deg_to_rad(steering)
+	if Input.is_action_pressed("drift"):
+		#turn_speed *= 1.5
+		if drift_state == DriftState.Not and ground_ray.is_colliding():
+			if turn_input == 0:
+				pass
+			elif turn_input > 0: # trying to drift left
+				drift_state = DriftState.Left
+			elif turn_input < 0: # trying to drift right
+				drift_state = DriftState.Right
+		
+		if drift_state == DriftState.Left:
+			turn_input += deg_to_rad(steering)
+			turn_input *= 0.75
+		elif drift_state == DriftState.Right:
+			turn_input -= deg_to_rad(steering)
+			turn_input *= 0.75
+	elif drift_state != DriftState.Not:
+		drift_state = DriftState.Not
 	
 ### lap handling
 var lap_count: int = 0
@@ -143,15 +187,16 @@ var highest_lap_achieved = 1
 func _on_marker_detector_lap_count_incremented() -> void:
 	if lap_count == 3:
 		print("RACE FINISHED")
-		Globals.play_sfx(preload("res://sfx/racefinishwhistle.wav"))
+		Globals.play_sfx(Globals.RACE_FINISH_SFX)
 		input_disabled = true
 		$HUD/FinishText.visible = true
 		$HUD/Popup.text = "LAP: " + ("%02d:%02d.%02d" % [current_lap_time/60, int(current_lap_time) % 60, (current_lap_time - int(current_lap_time)) * 100])
 		$HUD/Popup.visible = true
 		lap_times.append(current_lap_time)
 		get_parent().stop_music()
+		$EngineSound.stop()
 		await get_tree().create_timer(3).timeout
-		get_parent().play_music(preload("res://music/racewin_NEW.ogg"))
+		get_parent().play_music(Globals.RACE_WIN_MUSIC)
 		$HUD/Transition/PostgameHUD/TimeSummary.text = "Total: " + format_timer(race_time) + \
 			"\nLap 1: " + format_timer(lap_times[0]) + \
 			"\nLap 2: " + format_timer(lap_times[1]) + \
@@ -165,7 +210,7 @@ func _on_marker_detector_lap_count_incremented() -> void:
 	else:
 		lap_count += 1
 		if lap_count > highest_lap_achieved:
-			Globals.play_sfx(preload("res://sfx/acceptselect.wav"))
+			Globals.play_sfx(Globals.MENU_ACCEPT_SFX)
 			$HUD/Popup.text = "LAP: " + ("%02d:%02d.%02d" % [current_lap_time/60, int(current_lap_time) % 60, (current_lap_time - int(current_lap_time)) * 100])
 			$HUD/Popup.visible = true
 			lap_times.append(current_lap_time)
@@ -186,16 +231,18 @@ func _on_marker_detector_lap_count_decremented() -> void:
 func _on_marker_detector_car_fell_off_road() -> void:
 	self.input_disabled = true
 	$Camera3D.position_lock = true
-	Globals.play_sfx(preload("res://sfx/deltarune-explosion.mp3"))
+	Globals.play_sfx(Globals.DELTARUNE_EXPLOSION_SFX)
 	$Model/Explosion.visible = true
 	$Model/Explosion.play("default")
 	await get_tree().create_timer(1).timeout
 	self.linear_velocity = Vector3.ZERO
-	self.position = last_known_grounded_locations[0]
+	self.position = last_known_grounded_locations[0][0]
+	car_mesh.rotation = last_known_grounded_locations[0][1]
 	$Model/Explosion.visible = false
 	self.input_disabled = false
 	$Camera3D.position_lock = false
-	self.process_mode = Node.PROCESS_MODE_ALWAYS
+	# why did i have this?
+	#self.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func _on_popup_2_pleeeeeeeease_put_me_back_in_char_select_plssssssssss() -> void:

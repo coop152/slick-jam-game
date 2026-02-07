@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" uid="uid://blsa0lfw70ajn" path="res://vehicles/player_car.gd" id="1_i3pqv"]
 [ext_resource type="Script" uid="uid://dfryxev770fha" path="res://vehicles/player_camera.gd" id="3_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://7ehnaokb5nm0" path="res://UI/boost_bar.png" id="4_ake38"]
 [ext_resource type="Texture2D" uid="uid://bh22biltejui0" path="res://UI/hud_mockup.png" id="4_sweqy"]
 [ext_resource type="Texture2D" uid="uid://s8lf3pvxdkum" path="res://UI/speedometer_needle.png" id="5_32udi"]
 [ext_resource type="Texture2D" uid="uid://dvod3wotfepxx" path="res://UI/Lap1.png" id="5_ewl42"]
+[ext_resource type="Texture2D" uid="uid://cbshit6r2vpjm" path="res://UI/boost_bar_mask.png" id="5_nl6vk"]
 [ext_resource type="FontFile" uid="uid://tldk3qoa646k" path="res://UI/RubikMonoOne-Regular.ttf" id="6_4khp5"]
 [ext_resource type="Texture2D" uid="uid://3pj312jrfn1e" path="res://UI/Lap2.png" id="6_mfu14"]
+[ext_resource type="Texture2D" uid="uid://dic0f1vs2aa6o" path="res://UI/boost_bar_fill.png" id="6_njpju"]
 [ext_resource type="Texture2D" uid="uid://cse175gn00ua5" path="res://UI/Lap3.png" id="7_ajx5e"]
 [ext_resource type="Script" uid="uid://cpiq2n8dxukcq" path="res://vehicles/marker_detector.gd" id="7_ht0mr"]
 [ext_resource type="Texture2D" uid="uid://dcw604hfrq3ua" path="res://UI/minimap.png" id="10_7eie2"]
@@ -17,6 +20,9 @@
 [ext_resource type="Texture2D" uid="uid://dreqh8pxxjb7q" path="res://UI/speedometer_needle_overlay.png" id="13_lbh28"]
 [ext_resource type="Texture2D" uid="uid://fec3bs4rdubs" path="res://UI/results_screen_bg.png" id="14_ighbs"]
 [ext_resource type="Texture2D" uid="uid://ssdo2n62i2dq" path="res://deltarune_explosion.png" id="15_m4j7a"]
+[ext_resource type="Material" uid="uid://s5mxjqvubwhc" path="res://drift_particles.tres" id="20_if62l"]
+[ext_resource type="SphereMesh" uid="uid://ufb2bcpvssyj" path="res://drift_particle_mesh.tres" id="21_2vrlu"]
+[ext_resource type="AudioStream" uid="uid://xc68km24jm7f" path="res://sfx/driftLOOP.wav" id="21_njpju"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i3pqv"]
 bounce = 0.1
@@ -85,12 +91,12 @@ font_color = Color(0.6862745, 0, 0, 1)
 shadow_color = Color(0.8117647, 0, 0, 1)
 shadow_offset = Vector2(-1, 0)
 
-[sub_resource type="FontVariation" id="FontVariation_lbh28"]
+[sub_resource type="FontVariation" id="FontVariation_njpju"]
 base_font = ExtResource("6_4khp5")
 spacing_glyph = -2
 
 [sub_resource type="LabelSettings" id="LabelSettings_m4j7a"]
-font = SubResource("FontVariation_lbh28")
+font = SubResource("FontVariation_njpju")
 font_size = 36
 font_color = Color(0.6862745, 0, 0, 1)
 shadow_size = 12
@@ -249,6 +255,7 @@ animations = [{
 }]
 
 [node name="PlayerCar" type="RigidBody3D" unique_id=1411255366]
+process_mode = 1
 collision_layer = 3
 physics_material_override = SubResource("PhysicsMaterial_i3pqv")
 gravity_scale = 5.0
@@ -277,6 +284,21 @@ z_as_relative = false
 texture = ExtResource("4_sweqy")
 centered = false
 
+[node name="BoostBar" type="Sprite2D" parent="HUD" unique_id=1034882443]
+texture = ExtResource("4_ake38")
+centered = false
+
+[node name="BoostMask" type="Sprite2D" parent="HUD/BoostBar" unique_id=1618198844]
+clip_children = 1
+position = Vector2(208, 320)
+texture = ExtResource("5_nl6vk")
+centered = false
+
+[node name="Fill" type="Sprite2D" parent="HUD/BoostBar/BoostMask" unique_id=1930197614]
+position = Vector2(-220, 0)
+texture = ExtResource("6_njpju")
+centered = false
+
 [node name="SpeedCounter" type="Label" parent="HUD" unique_id=1221355235]
 z_index = 1
 z_as_relative = false
@@ -288,6 +310,7 @@ text = "123"
 label_settings = SubResource("LabelSettings_ewl42")
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="SpeedNeedle" type="Sprite2D" parent="HUD" unique_id=134502914]
 position = Vector2(568, 302)
@@ -319,6 +342,7 @@ offset_right = 293.0
 offset_bottom = 42.0
 text = "00:00.00"
 label_settings = SubResource("LabelSettings_iemd8")
+metadata/_edit_use_anchors_ = true
 
 [node name="FinishText" type="Label" parent="HUD" unique_id=53204652]
 visible = false
@@ -377,6 +401,7 @@ Lap 1: 00:00.00
 Lap 2: 00:00.00
 Lap 3: 00:00.00"
 label_settings = SubResource("LabelSettings_ake38")
+metadata/_edit_use_anchors_ = true
 
 [node name="Popup2" type="Label" parent="HUD/Transition/PostgameHUD" unique_id=29707202]
 visible = false
@@ -393,7 +418,7 @@ text = "ACCELERATE TO CONTINUE"
 label_settings = SubResource("LabelSettings_ighbs")
 script = ExtResource("13_iemd8")
 
-[node name="Sprite2D" type="Sprite2D" parent="HUD/Transition/PostgameHUD" unique_id=1452926793]
+[node name="BG" type="Sprite2D" parent="HUD/Transition/PostgameHUD" unique_id=1452926793]
 texture = ExtResource("14_ighbs")
 
 [node name="Model" type="Node3D" parent="." unique_id=1619560215]
@@ -410,10 +435,21 @@ billboard = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_qew7r")
 
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Model" unique_id=823406323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5996854)
+amount = 128
+fixed_fps = 60
+process_material = ExtResource("20_if62l")
+draw_pass_1 = ExtResource("21_2vrlu")
+
 [node name="EngineSound" type="AudioStreamPlayer3D" parent="." unique_id=189951437]
 stream = ExtResource("13_32udi")
-volume_db = 10.0
+volume_db = 20.0
 autoplay = true
+
+[node name="DriftSound" type="AudioStreamPlayer3D" parent="." unique_id=1753632936]
+stream = ExtResource("21_njpju")
+volume_db = -5.0
 
 [connection signal="PLEEEEEEEEASE_put_me_back_in_char_select_plssssssssss" from="HUD/Transition/PostgameHUD/Popup2" to="." method="_on_popup_2_pleeeeeeeease_put_me_back_in_char_select_plssssssssss"]
 [connection signal="area_entered" from="Model/MarkerDetector" to="Model/MarkerDetector" method="_on_area_entered"]

@@ -10,6 +10,15 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("devkey"):
 		player_car.global_transform = spawn_point.global_transform
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		if not get_tree().paused:
+			get_tree().paused = true
+			$PauseText.visible = true
+		else:
+			get_tree().paused = false
+			$PauseText.visible = false
+
 func _ready() -> void:
 	# spawn the player's chosen car
 	print("car picked: " + str(Globals.player_selected_car))
