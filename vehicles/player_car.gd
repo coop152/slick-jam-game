@@ -21,7 +21,7 @@ extends RigidBody3D
 var sphere_offset = Vector3.DOWN * 1.5
 # Engine power
 var base_acceleration = 120.0
-var deceleration_factor = 0.5
+var deceleration_factor = 0.75
 # maximum allowed speed
 var max_speed = 80.0
 # Turn amount, in degrees
@@ -152,10 +152,10 @@ func handle_input(delta):
 		boost_charge -= delta * 40
 		acceleration *= 1.5
 		turn_speed *= 0.75
-		$Camera3D.create_tween().tween_property($Camera3D, "fov", 75, 0.5)
+		$Camera3D.create_tween().tween_property($Camera3D, "fov", 75, 0.25)
 	else:
 		boosting = false
-		$Camera3D.create_tween().tween_property($Camera3D, "fov", 60, 0.5)
+		$Camera3D.create_tween().tween_property($Camera3D, "fov", 60, 0.25)
 		
 	# take inputs
 	#speed_input = Input.get_axis("brake", "accelerate") * acceleration

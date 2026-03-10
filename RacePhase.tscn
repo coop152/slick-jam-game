@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dfkfdbak0oyqg"]
 
 [ext_resource type="Script" uid="uid://d8d0xkoijd4f" path="res://race_phase.gd" id="1_73ci3"]
-[ext_resource type="PackedScene" uid="uid://dxrvd0fbvd2s1" path="res://real level/trac_kkiall_awesome.tscn" id="2_reikq"]
+[ext_resource type="PackedScene" uid="uid://dxrvd0fbvd2s1" path="res://real level/track_awesome.tscn" id="2_reikq"]
 [ext_resource type="PackedScene" uid="uid://bots73fvm7ui5" path="res://vehicles/JakeCar.tscn" id="3_reikq"]
 [ext_resource type="Texture2D" uid="uid://bw3chadtl0h53" path="res://UI/fade_mask_inverse.png" id="4_reikq"]
 [ext_resource type="Texture2D" uid="uid://0nu3hw1d67yg" path="res://UI/countdown_lights.png" id="5_cm7xk"]
@@ -11,8 +11,9 @@
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_73ci3"]
 sky_top_color = Color(0.14354825, 0.12762088, 0.20262024, 1)
 sky_horizon_color = Color(0.031485006, 0.015300002, 0.09, 1)
-ground_bottom_color = Color(0.20715812, 0.20032483, 0.17635566, 1)
-ground_horizon_color = Color(0.55, 0.4356, 0.28599998, 1)
+ground_bottom_color = Color(0.12, 0.12, 0.12, 1)
+ground_horizon_color = Color(0.2, 0.2, 0.2, 1)
+ground_energy_multiplier = 1.5
 
 [sub_resource type="Sky" id="Sky_reikq"]
 sky_material = SubResource("ProceduralSkyMaterial_73ci3")

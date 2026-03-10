@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Slick Jam Gaaaaaaame"
+config/name="Slick-Back Racers"
 run/main_scene="uid://26kjor23bk8n"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://dymmvfp054f7y"
 
 [audio]
 

@@ -275,7 +275,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_hqtel")
 current = true
 fov = 60.0
 script = ExtResource("3_i3pqv")
-lerp_speed = 12.0
+lerp_speed = 9.0
 offset = Vector3(0, 4, -8)
 target = NodePath("..")
 
